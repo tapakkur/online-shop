@@ -1,0 +1,24 @@
+#服务器端口设置，默认是8080
+server:
+  port: 8080
+
+#数据库连接
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/eshop?useUnicode=true&characterEncoding=utf8&useSSL=false
+    #    url: jdbc:mysql://127.0.0.1/eshop  提示：useSSL=false 的作用是可以消除后台会出现的一个警告
+    username: root
+    password: root
+
+# 分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml  #注意这个mapper地址，不能随便指定，

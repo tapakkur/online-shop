@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qakmak.eshop.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.qakmak.eshop.common.User">
+        <id column="userId" property="id" jdbcType="INTEGER" />
+        <result column="userName" property="name" jdbcType="VARCHAR" />
+        <result column="loginName" property="loginName" jdbcType="VARCHAR" />
+        <result column="passwd" property="password" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <collection property="orders" javaType="ArrayList"
+                    column="userId" ofType="com.qakmak.eshop.common.Order"
+                    select="com.qakmak.eshop.orderMapper.queryOrderByUserId"
+                    fetchType="lazy">
+            <id column="orderId" property="Id" />
+            <result column="orderNumber" property="code" />
+            <result column="total" property="total" />
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        userId, userName, loginName, passwd, phone, address
+    </sql>
+
+    <!--添加用户信息-->
+    <!--<insert id="saveUser" parameterType="com.qakmak.eshop.common.User">-->
+        <!--INSERT INTO `tb_user` (userId, userName, loginName, passwd, phone, address)-->
+        <!--VALUES (#{id, jdbcType=INTEGER}, #{name, jdbcType=VARCHAR, #{loginName, jdbcType=VARCHAR},-->
+        <!--#{password, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR}, #{address, jdbcType=VARCHAR})-->
+    <!--</insert>-->
+
+    <!-- 删除用户 -->
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        DELETE FROM `tb_user`
+        WHERE userId = #{id, jdbcType=INTEGER}
+    </delete>
+
+    <!-- 更新用户 -->
+    <!--<update id="updateUser" parameterType="com.qakmak.eshop.common.User">-->
+        <!--UPDATE `tb_user`-->
+        <!--SET userName = #{name,jdbcType = VARCHAR}, loginName = #{loginName,jdbcType = VARCHAR},-->
+            <!--passwd = #{password,jdbcType = VARCHAR}, phone = #{phone,jdbcType = VARCHAR},-->
+            <!--address = #{address,jdbcType = VARCHAR}-->
+        <!--WHERE userId = #{id, jdbcType=INTEGER}-->
+    <!--</update>-->
+
+    <!-- 按用户ID查询 -->
+    <select id="queryByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM `tb_user`
+        WHERE userId = #{id, jdbcType = INTEGER}
+    </select>
+
+    <!-- 查询所用用户 -->
+    <select id="queryAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM `tb_user`
+    </select>
+
+    <!-- 按姓名模糊查询 -->
+    <select id="fuzzyQuery" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM `tb_user`
+        WHERE userName LIKE concat('%', #{name}, '%')
+    </select>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qakmak.eshop.productMapper">
+    <resultMap id="ProductResultMap" type="com.qakmak.eshop.common.Product" >
+        <id column="productId" property="id" jdbcType="INTEGER" />
+        <result column="productName" property="name" jdbcType="VARCHAR" />
+        <result column="price" property="price" jdbcType="DOUBLE" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <collection property="orders" javaType="ArrayList"
+                    column="oid" ofType="com.qakmak.eshop.common.Order"
+                    select="com.qakmak.eshop.customerMapper.queryOrderByOrderId "
+                    fetchType="lazy" >
+            <id column="orderId" property="id" jdbcType="INTEGER" />
+            <result column="orderNumber" property="code" jdbcType="VARCHAR"/>
+            <result column="total" property="total" jdbcType="DOUBLE" />
+        </collection>
+    </resultMap>
+
+    <!-- 按订单ID查询商品信息 -->
+    <select id="queryProductByOrderId" parameterType="java.lang.Integer" resultType="com.qakmak.eshop.common.Product">
+        select * from tb_product
+        where productId in (
+            select productId from tb_item
+            where orderId = #{orderId, jdbcType=INTEGER}
+        )
+    </select>
+</mapper>

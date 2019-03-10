@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qakmak.eshop.orderMapper">
+    <resultMap id="BaseResultMap" type="com.qakmak.eshop.common.Order">
+        <id column="orderId" property="id" jdbcType="INTEGER" />
+        <result column="orderNumber" property="code" jdbcType="VARCHAR" />
+        <result column="total" property="total" jdbcType="DOUBLE" />
+        <association property="user" javaType="com.qakmak.eshop.common.User" >
+            <id column="userId" property="id" jdbcType="INTEGER" />
+            <result column="userName" property="name" jdbcType="VARCHAR" />
+            <result column="loginName" property="loginName" jdbcType="VARCHAR" />
+            <result column="passwd" property="password" jdbcType="VARCHAR" />
+            <result column="phone" property="phone" jdbcType="VARCHAR" />
+            <result column="address" property="address" jdbcType="VARCHAR" />
+        </association>
+        <!-- o_Id 作为 select 中方法的参数，并查询结果返回 ofType 中的 Product 类型，然后装成 List 的参数值，参数值被赋予 products 变量-->
+        <collection property="products" javaType="ArrayList"
+                    column="oid" ofType="com.qakmak.eshop.common.Product"
+                    select="com.qakmak.eshop.productMapper.queryProductByOrderId"
+                    fetchType="lazy">
+            <id column="productId" property="id" />
+            <result column="productName" property="name" />
+            <result column="price" property="price" />
+            <result column="description" property="description" />
+        </collection>
+    </resultMap>
+
+    <!-- 按订单ID查询订单信息 -->
+    <select id="queryOrderByOrderId" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+        SELECT u.*, o.orderId AS oid, orderNumber, total
+        FROM tb_user u, tb_order o
+        WHERE u.userId = o.userId
+        AND o.userId = #{id, jdbcType=INTEGER}
+    </select>
+
+    <!-- 按用户ID查询订单信息 -->
+    <select id="queryOrderByUserId" parameterType="java.lang.Integer" resultType="com.qakmak.eshop.common.Order">
+        SELECT * FROM tb_order
+        WHERE userId = #{id, jdbcType=INTEGER}
+    </select>
+</mapper>
