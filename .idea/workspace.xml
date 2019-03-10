@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="606d5394-f4f7-45fb-834b-9a3d9bad0e6e" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/src/main/java/com/qakmak/eshop/utils/tets.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
