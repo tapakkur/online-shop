@@ -34,7 +34,9 @@
     <!-- 删除用户 -->
     <delete id="deleteUser" parameterType="java.lang.Integer">
         DELETE FROM `tb_user`
-        WHERE userId = #{id, jdbcType=INTEGER}
+        INNER JOIN tb_order
+        ON tb_user.userId = tb_order.userId
+        AND userId = #{id, jdbcType=INTEGER}
     </delete>
 
     <!-- 更新用户 -->
