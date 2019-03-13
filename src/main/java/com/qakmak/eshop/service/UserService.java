@@ -3,6 +3,7 @@ package com.qakmak.eshop.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.qakmak.eshop.common.User;
+import io.swagger.models.auth.In;
 
 /**
  * @author tapakkur
@@ -15,6 +16,7 @@ public interface UserService {
     void deleteUser(int userId);
     void updateUser(User user);
     User queryByUserId(int userId);
-    PageInfo<User> queryAll();
-    PageInfo<User> fuzzyQuery(String key);
+    PageInfo<User> queryAll(Integer page, Integer pageSize);
+    PageInfo<User> fuzzyQuery(String key,Integer page, Integer pageSize);
+//    int countUser();
 }

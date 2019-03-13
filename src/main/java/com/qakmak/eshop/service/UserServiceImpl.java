@@ -1,10 +1,13 @@
 package com.qakmak.eshop.service;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.qakmak.eshop.common.User;
 import com.qakmak.eshop.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author tapakkur
@@ -38,16 +41,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageInfo<User> queryAll() {
-        PageInfo pageInfo = new PageInfo();
-        pageInfo.setList(userDao.queryAll());
+    public PageInfo<User> queryAll(Integer page, Integer pageSize) {
+        List<User> resultList = userDao.queryAll(); // 查询用户信息的结果
+        Integer count = resultList.size();
+        //封装返回结果
+        Page<User> pageSetting = new Page<>(page,pageSize);
+        pageSetting.setTotal (count);
+        PageInfo<User> pageInfo = new PageInfo<>( pageSetting);
+        pageInfo.setList(resultList);
         return pageInfo;
     }
 
     @Override
-    public PageInfo<User> fuzzyQuery(String key) {
-        PageInfo pageInfo = new PageInfo();
-        pageInfo.setList(userDao.fuzzyQuery(key));
+    public PageInfo<User> fuzzyQuery(String key,Integer page, Integer pageSize) {
+        List<User> resultList = userDao.fuzzyQuery(key); // 查询数据结果
+        Integer count = resultList.size(); // 查询数据量
+
+//        封装返回结果
+        Page<User> pageSetting = new Page<>(page, pageSize); // 设置分页的当前页面和页面大小
+        pageSetting.setTotal(count); // 总数据量
+        PageInfo<User> pageInfo = new PageInfo <>(pageSetting);
+        pageInfo.setList(resultList);
         return pageInfo;
     }
+
+//    @Override
+//    public int countUser() {
+//        return userDao.countUser();
+//    }
 }

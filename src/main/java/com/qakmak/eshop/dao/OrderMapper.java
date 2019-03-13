@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface OrderMapper {
 
-    public List<Order> queryOrderByOrderId (int orderId);
+    public Order queryOrderByOrderId (int orderId);
     public List<Order> queryOrderByUserId (int userId);
 
 }

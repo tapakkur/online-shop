@@ -25,11 +25,11 @@
     </sql>
 
     <!--添加用户信息-->
-    <!--<insert id="saveUser" parameterType="com.qakmak.eshop.common.User">-->
-        <!--INSERT INTO `tb_user` (userId, userName, loginName, passwd, phone, address)-->
-        <!--VALUES (#{id, jdbcType=INTEGER}, #{name, jdbcType=VARCHAR, #{loginName, jdbcType=VARCHAR},-->
-        <!--#{password, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR}, #{address, jdbcType=VARCHAR})-->
-    <!--</insert>-->
+    <insert id="saveUser" parameterType="com.qakmak.eshop.common.User">
+        INSERT INTO `tb_user` (userId, userName, loginName, passwd, phone, address)
+        VALUES (#{id, jdbcType=INTEGER}, #{name, jdbcType=VARCHAR}, #{loginName, jdbcType=VARCHAR},
+        #{password, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR}, #{address, jdbcType=VARCHAR})
+    </insert>
 
     <!-- 删除用户 -->
     <delete id="deleteUser" parameterType="java.lang.Integer">
@@ -40,13 +40,13 @@
     </delete>
 
     <!-- 更新用户 -->
-    <!--<update id="updateUser" parameterType="com.qakmak.eshop.common.User">-->
-        <!--UPDATE `tb_user`-->
-        <!--SET userName = #{name,jdbcType = VARCHAR}, loginName = #{loginName,jdbcType = VARCHAR},-->
-            <!--passwd = #{password,jdbcType = VARCHAR}, phone = #{phone,jdbcType = VARCHAR},-->
-            <!--address = #{address,jdbcType = VARCHAR}-->
-        <!--WHERE userId = #{id, jdbcType=INTEGER}-->
-    <!--</update>-->
+    <update id="updateUser" parameterType="com.qakmak.eshop.common.User">
+        UPDATE `tb_user`
+        SET userName = #{name,jdbcType = VARCHAR}, loginName = #{loginName,jdbcType = VARCHAR},
+            passwd = #{password,jdbcType = VARCHAR}, phone = #{phone,jdbcType = VARCHAR},
+            address = #{address,jdbcType = VARCHAR}
+        WHERE userId = #{id, jdbcType=INTEGER}
+    </update>
 
     <!-- 按用户ID查询 -->
     <select id="queryByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -69,5 +69,10 @@
         <include refid="Base_Column_List"/>
         FROM `tb_user`
         WHERE userName LIKE concat('%', #{name}, '%')
+    </select>
+
+    <!-- 统计用户信息 -->
+    <select id="countUser" resultType="java.lang.Integer">
+        SELECT SUM(userId) FROM tb_user;
     </select>
 </mapper>

@@ -16,4 +16,5 @@ public interface UserDao {
     public User queryByUserId (int userId); // 按用户ID查询
     public List<User> queryAll (); // 查询所用用户
     public List<User> fuzzyQuery (String userName); // 按姓名模糊查询
+//    public int countUser();
 }

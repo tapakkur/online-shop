@@ -34,7 +34,7 @@ public class SwaggerConfiguration {
         watch.start();
         ApiInfo apiInfo = new ApiInfo(
                 "qakmak online e-shop",
-                "qakmak 在线电子商城",
+                "qakmak 在线购物商城",
                 "1.0",
                 null,
                 null,
