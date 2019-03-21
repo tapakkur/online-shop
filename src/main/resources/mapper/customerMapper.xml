@@ -27,7 +27,7 @@
     <!--添加用户信息-->
     <insert id="saveUser" parameterType="com.qakmak.eshop.common.User">
         INSERT INTO `tb_user` (userId, userName, loginName, passwd, phone, address)
-        VALUES (#{id, jdbcType=INTEGER}, #{name, jdbcType=VARCHAR}, #{loginName, jdbcType=VARCHAR},
+        VALUES (#{id,jdbcType = VARCHAR}, #{name, jdbcType=VARCHAR}, #{loginName, jdbcType=VARCHAR},
         #{password, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR}, #{address, jdbcType=VARCHAR})
     </insert>
 
@@ -71,8 +71,4 @@
         WHERE userName LIKE concat('%', #{name}, '%')
     </select>
 
-    <!-- 统计用户信息 -->
-    <select id="countUser" resultType="java.lang.Integer">
-        SELECT SUM(userId) FROM tb_user;
-    </select>
 </mapper>

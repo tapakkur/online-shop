@@ -23,9 +23,19 @@ public class User implements Serializable {
         //
     }
 
+//    添加用户时用这个
     public User(Integer id, String name, String loginName, String password,
                 String phone, String address) {
-        this.id = id; // 用户id
+        this.id = id;
+        this.name = name; // 用户姓名
+        this.loginName = loginName; // 用户登录名
+        this.password = password; // 登录密码
+        this.phone = phone; // 用户联系方式
+        this.address = address; // 用户地址
+    }
+//    修改用户信息时用这个
+    public User(String name, String loginName, String password,
+                String phone, String address) {
         this.name = name; // 用户姓名
         this.loginName = loginName; // 用户登录名
         this.password = password; // 登录密码

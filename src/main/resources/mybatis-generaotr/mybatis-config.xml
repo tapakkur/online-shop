@@ -49,20 +49,19 @@
         <!-- 数据库表的定义 -->
         <table tableName="tb_user" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
-            <generatedKey column="Id" sqlStatement="Mysql" identity="true" />
+            <generatedKey column="userId" sqlStatement="Mysql" identity="true" />
         </table>
         <table tableName="tb_product" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
-            <generatedKey column="Id" sqlStatement="Mysql" identity="true" />
+            <generatedKey column="productId" sqlStatement="Mysql" identity="true" />
         </table>
         <table tableName="tb_order" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
-            <generatedKey column="Id" sqlStatement="Mysql" identity="true" />
+            <generatedKey column="orderId" sqlStatement="Mysql" identity="true" />
         </table>
         <table tableName="tb_item" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false" />
             <generatedKey column="Id" sqlStatement="Mysql" identity="true" />
         </table>
     </context>
-
 </generatorConfiguration>

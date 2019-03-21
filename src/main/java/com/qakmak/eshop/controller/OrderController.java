@@ -23,7 +23,7 @@ import java.util.List;
 
 @RestController
 @Api(value = "订单信息管理", description = "管理平台上用户预定下来的订单信息，并提供相应的服务")
-@RequestMapping(value = "order/")
+@RequestMapping(value = "/order")
 public class OrderController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class OrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "orderId", value = "orderId")
     })
-    @RequestMapping(value = "queryOrderByOrderId/", method = RequestMethod.POST)
+    @RequestMapping(value = "/queryOrderByOrderId", method = RequestMethod.POST)
     public Order queryOrderByOrderId(@RequestParam(value = "orderId", required = true) Integer orderId
                                      ){
         return  orderService.queryOrderByOrderId(orderId);
@@ -43,7 +43,7 @@ public class OrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "userId", value = "userId")
     })
-    @RequestMapping(value = "queryOrderByUserId/", method = RequestMethod.POST)
+    @RequestMapping(value = "/queryOrderByUserId", method = RequestMethod.POST)
     public PageInfo<Order> queryOrderByUserId(@RequestParam(value = "userId", required = true) Integer userId,
                                               @RequestParam(value = "Page", required = false, defaultValue = "1") Integer page,
                                               @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize
