@@ -1,5 +1,6 @@
 package com.qakmak.eshop.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.qakmak.eshop.common.Product;
 import com.qakmak.eshop.service.ProductService;
 import com.qakmak.eshop.service.ProductServiceImpl;
@@ -43,5 +44,42 @@ public class ProductController {
         ){
         Product product = new Product(id,name,price,description);
         productService.saveProduct(product);
+    }
+
+    @ApiOperation(value = "按产品id查询产品", notes = "按产品id查询产品信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "id", value = "产品id", required = true)
+    })
+    @RequestMapping(value = "/queryProductById", method = RequestMethod.POST)
+    public Product queryProductById(
+            @RequestParam(value = "id") Integer id
+    ){
+        return productService.queryProductById(id);
+    }
+
+    @ApiOperation(value = "删除产品", notes = "删除产品信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "productId", value = "产品id", required = true)
+    })
+    @RequestMapping(value = "/deleteProduct", method = RequestMethod.POST)
+    public void deleteProduct(
+            @RequestParam("productId") Integer productId
+    ){
+        productService.deleteProduct(productId);
+    }
+
+    @ApiOperation(value = "按订单id查询产品", notes = "按订单id查询产品信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "id", value = "订单id", required = true),
+            @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),
+            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页显示的记录数", defaultValue = "10")
+    })
+    @RequestMapping(value = "/queryProductByOrderId", method = RequestMethod.POST)
+    public PageInfo<Product> queryProductByOrderId(
+            @RequestParam(value = "id") Integer id,
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "pageSize") Integer pageSize
+    ){
+        return productService.queryProductByOrderId(id,page,pageSize);
     }
 }

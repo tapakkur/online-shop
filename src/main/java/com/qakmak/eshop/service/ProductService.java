@@ -1,5 +1,6 @@
 package com.qakmak.eshop.service;
 
+import com.github.pagehelper.PageInfo;
 import com.qakmak.eshop.common.Product;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
  */
 public interface ProductService {
 
-    public void saveProduct(Product product);
-    public List<Product> queryProductByOrderId (int orderId);
+    void saveProduct(Product product);
+    void deleteProduct(Integer productId);
+    Product queryProductById(Integer productId);
+    PageInfo<Product> queryProductByOrderId(int orderId,Integer page, Integer pageSize);
 }

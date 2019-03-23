@@ -11,7 +11,9 @@ import java.util.List;
  */
 public interface ProductMapper {
 
-    public void saveProduct(Product product);
-    public List<Product> queryProductByOrderId (int orderId);
+    void saveProduct(Product product);
+    void deleteProduct(Integer productId);
+    Product queryProductById(Integer productId);
+    List<Product> queryProductByOrderId (int orderId);
 
 }

@@ -17,7 +17,7 @@
         </association>
         <!-- o_Id 作为 select 中方法的参数，并查询结果返回 ofType 中的 Product 类型，然后装成 List 的参数值，参数值被赋予 products 变量-->
         <collection property="products" javaType="ArrayList"
-                    column="oid" ofType="com.qakmak.eshop.common.Product"
+                    column="orderId" ofType="com.qakmak.eshop.common.Product"
                     select="com.qakmak.eshop.dao.ProductMapper.queryProductByOrderId"
                     fetchType="lazy">
             <id column="productId" property="id" />
