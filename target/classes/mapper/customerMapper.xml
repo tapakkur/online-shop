@@ -12,7 +12,7 @@
         <result column="address" property="address" jdbcType="VARCHAR" />
         <collection property="orders" javaType="ArrayList"
                     column="userId" ofType="com.qakmak.eshop.common.Order"
-                    select="com.qakmak.eshop.orderMapper.queryOrderByUserId"
+                    select="com.qakmak.eshop.dao.OrderMapper.queryOrderByUserId"
                     fetchType="lazy">
             <id column="orderId" property="id" />
             <result column="orderNumber" property="code" />
@@ -27,16 +27,14 @@
     <!--添加用户信息-->
     <insert id="saveUser" parameterType="com.qakmak.eshop.common.User">
         INSERT INTO `tb_user` (userId, userName, loginName, passwd, phone, address)
-        VALUES (#{id, jdbcType=INTEGER}, #{name, jdbcType=VARCHAR}, #{loginName, jdbcType=VARCHAR},
+        VALUES (#{id,jdbcType = VARCHAR}, #{name, jdbcType=VARCHAR}, #{loginName, jdbcType=VARCHAR},
         #{password, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR}, #{address, jdbcType=VARCHAR})
     </insert>
 
     <!-- 删除用户 -->
     <delete id="deleteUser" parameterType="java.lang.Integer">
         DELETE FROM `tb_user`
-        INNER JOIN tb_order
-        ON tb_user.userId = tb_order.userId
-        AND userId = #{id, jdbcType=INTEGER}
+        WHERE userId = #{id, jdbcType=INTEGER}
     </delete>
 
     <!-- 更新用户 -->
@@ -71,8 +69,4 @@
         WHERE userName LIKE concat('%', #{name}, '%')
     </select>
 
-    <!-- 统计用户信息 -->
-    <select id="countUser" resultType="java.lang.Integer">
-        SELECT SUM(userId) FROM tb_user;
-    </select>
 </mapper>

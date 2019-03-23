@@ -1,4 +1,4 @@
-package com.qakmak.eshop.dao;
+package com.qakmak.eshop.service;
 
 import com.qakmak.eshop.common.Product;
 
@@ -6,12 +6,11 @@ import java.util.List;
 
 /**
  * @author tapakkur
- * @ProjectName eshop
- * @Date 2019/2/17 18:26
+ * @ProjectName online-shop
+ * @Date 2019/3/23 12:49
  */
-public interface ProductMapper {
+public interface ProductService {
 
     public void saveProduct(Product product);
     public List<Product> queryProductByOrderId (int orderId);
-
 }

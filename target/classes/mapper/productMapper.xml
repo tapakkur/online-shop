@@ -2,15 +2,15 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.qakmak.eshop.productMapper">
+<mapper namespace="com.qakmak.eshop.dao.ProductMapper">
     <resultMap id="ProductResultMap" type="com.qakmak.eshop.common.Product" >
         <id column="productId" property="id" jdbcType="INTEGER" />
         <result column="productName" property="name" jdbcType="VARCHAR" />
         <result column="price" property="price" jdbcType="DOUBLE" />
         <result column="description" property="description" jdbcType="VARCHAR" />
         <collection property="orders" javaType="ArrayList"
-                    column="oid" ofType="com.qakmak.eshop.common.Order"
-                    select="com.qakmak.eshop.customerMapper.queryOrderByOrderId "
+                    column="orderId" ofType="com.qakmak.eshop.common.Order"
+                    select="com.qakmak.eshop.dao.OrderMapper.queryOrderByOrderId "
                     fetchType="lazy" >
             <id column="orderId" property="id" jdbcType="INTEGER" />
             <result column="orderNumber" property="code" jdbcType="VARCHAR"/>
@@ -18,12 +18,34 @@
         </collection>
     </resultMap>
 
+    <!--添加产品-->
+    <insert id="saveProduct" parameterType="com.qakmak.eshop.common.Product">
+        INSERT INTO tb_product(productId, productName, price, description)
+        VALUES(#{id}, #{name}, #{price}, #{description})
+    </insert>
+
+    <!--删除产品-->
+    <delete id="deleteProduct" parameterType="java.lang.Integer">
+        DELETE FROM tb_product
+        WHERE tb_product.productId = = #{id}
+    </delete>
     <!-- 按订单ID查询商品信息 -->
     <select id="queryProductByOrderId" parameterType="java.lang.Integer" resultType="com.qakmak.eshop.common.Product">
-        select * from tb_product
-        where productId in (
-            select productId from tb_item
-            where orderId = #{orderId, jdbcType=INTEGER}
-        )
+        SELECT p.productId AS id, p.productName AS name,p.price AS price, p.description AS description
+        FROM tb_product AS p
+        WHERE productId IN (
+        SELECT productId FROM tb_item
+        WHERE orderId = #{id, jdbcType=INTEGER}
+        );
+
+        <!--select * from tb_product-->
+        <!--where productId in (-->
+            <!--select productId from tb_item-->
+            <!--where orderId = #{orderId, jdbcType=INTEGER}-->
+        <!--)-->
     </select>
+
+    <!--<select id="queryProductById" parameterType="java.lang.Integer" resultMap="ProductResultMap" >-->
+
+    <!--</select>-->
 </mapper>

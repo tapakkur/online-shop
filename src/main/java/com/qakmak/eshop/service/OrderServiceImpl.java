@@ -21,6 +21,11 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
 
     @Override
+    public void saveOrder(Order order) {
+        orderMapper.saveOrder(order);
+    }
+
+    @Override
     public Order queryOrderByOrderId(int orderId) {
         return orderMapper.queryOrderByOrderId(orderId);
     }

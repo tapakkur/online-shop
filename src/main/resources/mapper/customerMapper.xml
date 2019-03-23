@@ -12,7 +12,7 @@
         <result column="address" property="address" jdbcType="VARCHAR" />
         <collection property="orders" javaType="ArrayList"
                     column="userId" ofType="com.qakmak.eshop.common.Order"
-                    select="com.qakmak.eshop.orderMapper.queryOrderByUserId"
+                    select="com.qakmak.eshop.dao.OrderMapper.queryOrderByUserId"
                     fetchType="lazy">
             <id column="orderId" property="id" />
             <result column="orderNumber" property="code" />
@@ -34,9 +34,7 @@
     <!-- 删除用户 -->
     <delete id="deleteUser" parameterType="java.lang.Integer">
         DELETE FROM `tb_user`
-        INNER JOIN tb_order
-        ON tb_user.userId = tb_order.userId
-        AND userId = #{id, jdbcType=INTEGER}
+        WHERE userId = #{id, jdbcType=INTEGER}
     </delete>
 
     <!-- 更新用户 -->

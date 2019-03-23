@@ -28,21 +28,21 @@ public class UserController {
 
     @ApiOperation(value = "添加用户", notes = "添加用户信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "id", value = "用户编号"),
-            @ApiImplicitParam(paramType = "query", name = "name", value = "用户姓名"),
-            @ApiImplicitParam(paramType = "query", name = "loginName", value = "登录名"),
-            @ApiImplicitParam(paramType = "query", name = "password", value = "登录密码"),
-            @ApiImplicitParam(paramType = "query", name = "phone", value = "手机号"),
-            @ApiImplicitParam(paramType = "query", name = "address", value = "用户地址")
+            @ApiImplicitParam(paramType = "query", name = "id", value = "用户编号",required = true),
+            @ApiImplicitParam(paramType = "query", name = "name", value = "用户姓名",required = true),
+            @ApiImplicitParam(paramType = "query", name = "loginName", value = "登录名",required = true),
+            @ApiImplicitParam(paramType = "query", name = "password", value = "登录密码",required = true),
+            @ApiImplicitParam(paramType = "query", name = "phone", value = "手机号",required = true),
+            @ApiImplicitParam(paramType = "query", name = "address", value = "用户地址",required = true)
     })
     @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
     public void saveUser(
-            @RequestParam(value = "id",required = true) Integer id,
-             @RequestParam(value = "name",required = true) String name,
-             @RequestParam(value = "loginName", required = true) String loginName,
-             @RequestParam(value = "password", required = true) String password,
-             @RequestParam(value = "phone" ,required = true) String phone,
-             @RequestParam(value = "address",required = true) String address
+            @RequestParam(value = "id") Integer id,
+             @RequestParam(value = "name") String name,
+             @RequestParam(value = "loginName") String loginName,
+             @RequestParam(value = "password") String password,
+             @RequestParam(value = "phone") String phone,
+             @RequestParam(value = "address") String address
              ){
         User user = new User(id,name,loginName,password,phone,address);
         userService.saveUser(user);
@@ -53,7 +53,7 @@ public class UserController {
             @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true)
     })
     @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
-    public void deleteUser(@RequestParam(value = "userId", required = true) Integer userId){
+    public void deleteUser(@RequestParam(value = "userId") Integer userId){
         userService.deleteUser(userId);
     }
 
@@ -67,11 +67,11 @@ public class UserController {
     })
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public void updateUser(
-            @RequestParam(value = "name",required = true) String name,
-            @RequestParam(value = "loginName", required = true) String loginName,
-            @RequestParam(value = "password", required = true) String password,
-            @RequestParam(value = "phone" ,required = true) String phone,
-            @RequestParam(value = "address",required = true) String address
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "loginName") String loginName,
+            @RequestParam(value = "password") String password,
+            @RequestParam(value = "phone") String phone,
+            @RequestParam(value = "address") String address
     ){
         User user = new User(name,loginName,password,phone,address);
         userService.updateUser(user);
@@ -79,30 +79,36 @@ public class UserController {
 
     @ApiOperation(value = "按用户ID查询", notes = "按用户ID查询具体的用户信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "userId", value = "user id", required = true)
+            @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true)
     })
     @RequestMapping(value = "/queryByUserId", method = RequestMethod.POST)
-    public User queryByUserId(@RequestParam(value = "userId",required = true) Integer userId
+    public User queryByUserId(@RequestParam(value = "userId") Integer userId
                               ){
         return userService.queryByUserId(userId);
     }
 
     @ApiOperation(value = "查询所用用户信息", notes = "查询所用用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),
+            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页显示的记录数", defaultValue = "10")
+    })
     @RequestMapping(value = "/queryAll", method = RequestMethod.POST)
-    public PageInfo<User> queryAll(@RequestParam(value = "Page", required = false, defaultValue = "1") Integer page,
-                                   @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize
+    public PageInfo<User> queryAll(@RequestParam(value = "page") Integer page,
+                                   @RequestParam(value = "pageSize") Integer pageSize
                                    ){
         return userService.queryAll(page, pageSize);
     }
 
     @ApiOperation(value = "模糊查询", notes = "按用户名模糊查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "key", value = "user name", required = true)
+            @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),
+            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页显示的记录数", defaultValue = "10"),
+            @ApiImplicitParam(paramType = "query", name = "key", value = "按姓名模糊查询", required = true)
     })
     @RequestMapping(value = "/fuzzyQuery", method = RequestMethod.POST)
     public PageInfo<User> fuzzyQuery(@RequestParam(value = "key") String key,
-                                     @RequestParam(value = "Page", required = false, defaultValue = "1") Integer page,
-                                     @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize
+                                     @RequestParam(value = "page") Integer page,
+                                     @RequestParam(value = "pageSize") Integer pageSize
                                      ){
         return userService.fuzzyQuery(key,page,pageSize);
     }

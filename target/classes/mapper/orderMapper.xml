@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.qakmak.eshop.orderMapper">
+<mapper namespace="com.qakmak.eshop.dao.OrderMapper">
     <resultMap id="BaseResultMap" type="com.qakmak.eshop.common.Order">
         <id column="orderId" property="id" jdbcType="INTEGER" />
         <result column="orderNumber" property="code" jdbcType="VARCHAR" />
@@ -18,7 +18,7 @@
         <!-- o_Id 作为 select 中方法的参数，并查询结果返回 ofType 中的 Product 类型，然后装成 List 的参数值，参数值被赋予 products 变量-->
         <collection property="products" javaType="ArrayList"
                     column="oid" ofType="com.qakmak.eshop.common.Product"
-                    select="com.qakmak.eshop.productMapper.queryProductByOrderId"
+                    select="com.qakmak.eshop.dao.ProductMapper.queryProductByOrderId"
                     fetchType="lazy">
             <id column="productId" property="id" />
             <result column="productName" property="name" />
@@ -27,17 +27,30 @@
         </collection>
     </resultMap>
 
+    <!--添加订单（下单）-->
+    <insert id="saveOrder" parameterType="com.qakmak.eshop.common.Order">
+        INSERT INTO tb_order(orderId, orderNumber, total, userId)
+        VALUES(#{id}, #{code}, #{total}, #{user.id})
+    </insert>
     <!-- 按订单ID查询订单信息 -->
     <select id="queryOrderByOrderId" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
-        SELECT u.*, o.orderId AS oid, orderNumber, total
-        FROM tb_user u, tb_order o
-        WHERE u.userId = o.userId
-        AND o.userId = #{id, jdbcType=INTEGER}
+        SELECT u.loginName,o.orderNumber,o.total,u.phone,u.address,u.userId,o.orderId,u.userName
+        FROM tb_user as u
+        INNER JOIN tb_order as o
+        ON u.userId = o.userId
+        AND o.orderId = #{id, jdbcType=INTEGER}
     </select>
 
     <!-- 按用户ID查询订单信息 -->
     <select id="queryOrderByUserId" parameterType="java.lang.Integer" resultType="com.qakmak.eshop.common.Order">
-        SELECT * FROM tb_order
+        <!-- 注意：由于我在实体类定义属性时没注意跟数据库表属性列一致，因此这里传参时顺便改属性了，不然参数值没法传过去了 -->
+        SELECT o.orderId AS id,o.orderNumber AS code,o.total AS total
+        FROM tb_order AS o
         WHERE userId = #{id, jdbcType=INTEGER}
+
+        <!--以下做法在实体类属性跟表属性列不一致时传参数值失败了-->
+        <!--SELECT *-->
+        <!--FROM tb_order-->
+        <!--WHERE userId = #{id, jdbcType=INTEGER}-->
     </select>
 </mapper>
