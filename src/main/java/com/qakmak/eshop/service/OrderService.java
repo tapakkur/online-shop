@@ -9,9 +9,10 @@ import com.qakmak.eshop.common.Order;
  * @Date 2019/3/13 20:21
  */
 public interface OrderService {
-//    void saveOrder(Order order,Integer orderId, Integer productId);
+
     void saveOrder(Order order);
     Order queryOrderByOrderId(int orderId);
     PageInfo<Order> queryOrderByUserId(int userId, Integer page, Integer pageSize);
     void saveItem(Integer orderId, Integer productId);
+
 }

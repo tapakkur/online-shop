@@ -46,7 +46,7 @@ public class ProductController {
         productService.saveProduct(product);
     }
 
-    @ApiOperation(value = "按产品id查询产品", notes = "按产品id查询产品信息")
+    @ApiOperation(value = "按productId查询产品", notes = "按产品id查询产品信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "id", value = "产品id", required = true)
     })
@@ -68,7 +68,7 @@ public class ProductController {
         productService.deleteProduct(productId);
     }
 
-    @ApiOperation(value = "按订单id查询产品", notes = "按订单id查询产品信息")
+    @ApiOperation(value = "按orderId分页查询产品", notes = "按订单id查询产品信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "id", value = "订单id", required = true),
             @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.qakmak.eshop.common.Order;
 import com.qakmak.eshop.common.User;
 import com.qakmak.eshop.service.OrderServiceImpl;
+import com.qakmak.eshop.service.ProductServiceImpl;
 import com.qakmak.eshop.service.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,11 +33,14 @@ public class OrderController {
     @Autowired
     private UserServiceImpl userService;
 
-    @ApiOperation(value = "添加订单信息", notes = "预处理订单信息")
+    @Autowired
+    private ProductServiceImpl productService;
+
+    @ApiOperation(value = "添加订单", notes = "预处理订单信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "id", value = "订单id",required = true),
             @ApiImplicitParam(paramType = "query", name = "code", value = "订单编号",required = true),
-            @ApiImplicitParam(paramType = "query", name = "total", value = "总额",required = true),
+//            @ApiImplicitParam(paramType = "query", name = "total", value = "总额",required = true),
             @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id",required = true),
             @ApiImplicitParam(paramType = "query", name = "productIds", value = "产品id集，以','隔开id",required = true)
     })
@@ -44,25 +48,29 @@ public class OrderController {
     public void saveOrder(
             @RequestParam(value = "id") Integer id,
             @RequestParam(value = "code") String code,
-            @RequestParam(value = "total") double total,
+//            @RequestParam(value = "total") double total,
             @RequestParam(value = "userId") Integer userId,
             @RequestParam(value = "productIds") String productIds
     ){
-        Order order = new Order(id,code,total); // 1.初始化订单属性值
-        User user = userService.queryByUserId(userId); // 2.配置订单的用户
+        Order order = new Order(); // 1.创建一个order对象
+        order.setId(id);
+        order.setCode(code);
+        double order_total = 0;
+        User user = userService.queryByUserId(userId); // 2.初始化订单的用户属性
         order.setUser(user);
-        orderService.saveOrder(order);
-        // 3.配置订单中相关产品信息，待补。。。。
+        // 3.初始化订单下的产品信息（产品可多选）
         String[] array = productIds.split(",");
         for (int i = 0; i < array.length; i++){
             Integer orderId = order.getId();
             Integer productId = Integer.valueOf(array[i]);
-//            orderService.saveOrder(order,orderId,productId);
+            order_total += productService.queryProductById(productId).getPrice();
             orderService.saveItem(orderId,productId);
         }
+        order.setTotal(order_total);
+        orderService.saveOrder(order);
     }
 
-    @ApiOperation(value = "按订单id查询订单", notes = "按订单id查询订单信息")
+    @ApiOperation(value = "按orderId查询订单", notes = "按订单id查询订单信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "orderId", value = "订单id",required = true)
     })
@@ -72,7 +80,7 @@ public class OrderController {
         return  orderService.queryOrderByOrderId(orderId);
     }
 
-    @ApiOperation(value = "按用户id查询订单", notes = "按用户id查询订单信息")
+    @ApiOperation(value = "按userId分页查询订单", notes = "按用户id查询订单信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),
             @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页显示的记录数", defaultValue = "10"),

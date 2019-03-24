@@ -20,15 +20,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
-//    @Override
-//    public void saveOrder(Order order,Integer orderId, Integer productId) {
-//        orderMapper.saveOrder(order);
-//        orderMapper.saveItem(orderId,productId);
-//    }
     @Override
     public void saveOrder(Order order) {
         orderMapper.saveOrder(order);
-//        orderMapper.saveItem(orderId,productId);
     }
 
     @Override
