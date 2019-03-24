@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2019/2/24 1:29
  */
 @RestController
-@Api(value = "用户信息管理", description = "管理平台里注册的用户的信息，并提供相应的服务")
+@Api(value = "用户信息管理", description = "管理用户信息，并提供相应的服务的后台接口")
 @RequestMapping(value = "/user")
 public class UserController {
 
@@ -57,7 +57,7 @@ public class UserController {
         userService.deleteUser(userId);
     }
 
-    @ApiOperation(value = "更新用户", notes = "更新用户信息")
+    @ApiOperation(value = "修改用户", notes = "修改用户信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "name", value = "用户姓名"),
             @ApiImplicitParam(paramType = "query", name = "loginName", value = "登录名"),
@@ -77,7 +77,7 @@ public class UserController {
         userService.updateUser(user);
     }
 
-    @ApiOperation(value = "按用户ID查询", notes = "按用户ID查询具体的用户信息")
+    @ApiOperation(value = "查询用户的所有信息", notes = "按用户ID查询用户的个人信息以及名下的订单，产品的相关信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true)
     })
@@ -87,7 +87,7 @@ public class UserController {
         return userService.queryByUserId(userId);
     }
 
-    @ApiOperation(value = "查询所用用户信息", notes = "查询所用用户信息")
+    @ApiOperation(value = "分页查询所有用户的所用信息", notes = "查询所有用户的所有信息，包括名下的订单和产品的相关信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),
             @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页显示的记录数", defaultValue = "10")
@@ -99,7 +99,7 @@ public class UserController {
         return userService.queryAll(page, pageSize);
     }
 
-    @ApiOperation(value = "模糊查询", notes = "按用户名模糊查询")
+    @ApiOperation(value = "分页模糊查询用户的所有信息", notes = "按用户名模糊查询")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),
             @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页显示的记录数", defaultValue = "10"),

@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface OrderMapper {
 
-    public void saveOrder(Order order);
-    public Order queryOrderByOrderId (int orderId);
-    public List<Order> queryOrderByUserId (int userId);
-
+    void saveOrder(Order order);
+    Order queryOrderByOrderId(int orderId);
+    List<Order> queryOrderByUserId(int userId);
+    void saveItem(Integer orderId, Integer productId);
 }

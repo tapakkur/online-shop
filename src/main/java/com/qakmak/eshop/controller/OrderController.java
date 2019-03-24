@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@Api(value = "订单信息管理", description = "管理平台上用户预定下来的订单信息，并提供相应的服务")
+@Api(value = "订单信息管理", description = "管理订单信息，并提供相应服务的后台接口")
 @RequestMapping(value = "/order")
 public class OrderController {
 
@@ -37,20 +37,29 @@ public class OrderController {
             @ApiImplicitParam(paramType = "query", name = "id", value = "订单id",required = true),
             @ApiImplicitParam(paramType = "query", name = "code", value = "订单编号",required = true),
             @ApiImplicitParam(paramType = "query", name = "total", value = "总额",required = true),
-            @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id",required = true)
+            @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id",required = true),
+            @ApiImplicitParam(paramType = "query", name = "productIds", value = "产品id集，以','隔开id",required = true)
     })
     @RequestMapping(value = "/saveOrder", method = RequestMethod.POST)
     public void saveOrder(
             @RequestParam(value = "id") Integer id,
             @RequestParam(value = "code") String code,
             @RequestParam(value = "total") double total,
-            @RequestParam(value = "userId") Integer userId
+            @RequestParam(value = "userId") Integer userId,
+            @RequestParam(value = "productIds") String productIds
     ){
         Order order = new Order(id,code,total); // 1.初始化订单属性值
         User user = userService.queryByUserId(userId); // 2.配置订单的用户
         order.setUser(user);
-        // 3.配置订单中相关产品信息，待补。。。。
         orderService.saveOrder(order);
+        // 3.配置订单中相关产品信息，待补。。。。
+        String[] array = productIds.split(",");
+        for (int i = 0; i < array.length; i++){
+            Integer orderId = order.getId();
+            Integer productId = Integer.valueOf(array[i]);
+//            orderService.saveOrder(order,orderId,productId);
+            orderService.saveItem(orderId,productId);
+        }
     }
 
     @ApiOperation(value = "按订单id查询订单", notes = "按订单id查询订单信息")

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@Api(value = "产品信息管理", description = "管理商城里的产品信息，并提供相应的服务")
+@Api(value = "产品信息管理", description = "管理产品信息，并提供相应服务的后台接口")
 @RequestMapping(value = "/product")
 public class ProductController {
 

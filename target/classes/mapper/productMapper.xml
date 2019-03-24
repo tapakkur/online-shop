@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.qakmak.eshop.dao.ProductMapper">
-    <resultMap id="ProductResultMap" type="com.qakmak.eshop.common.Product" >
+    <resultMap id="BaseResultMap" type="com.qakmak.eshop.common.Product" >
         <id column="productId" property="id" jdbcType="INTEGER" />
         <result column="productName" property="name" jdbcType="VARCHAR" />
         <result column="price" property="price" jdbcType="DOUBLE" />
@@ -27,8 +27,16 @@
     <!--删除产品-->
     <delete id="deleteProduct" parameterType="java.lang.Integer">
         DELETE FROM tb_product
-        WHERE tb_product.productId = = #{id}
+        WHERE tb_product.productId = #{id}
     </delete>
+
+    <!--按产品id查询产品信息-->
+    <select id="queryProductById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT *
+        FROM tb_product
+        WHERE tb_product.productId = #{id}
+    </select>
+
     <!-- 按订单ID查询商品信息 -->
     <select id="queryProductByOrderId" parameterType="java.lang.Integer" resultType="com.qakmak.eshop.common.Product">
         SELECT p.productId AS id, p.productName AS name,p.price AS price, p.description AS description
@@ -45,7 +53,4 @@
         <!--)-->
     </select>
 
-    <!--<select id="queryProductById" parameterType="java.lang.Integer" resultMap="ProductResultMap" >-->
-
-    <!--</select>-->
 </mapper>
