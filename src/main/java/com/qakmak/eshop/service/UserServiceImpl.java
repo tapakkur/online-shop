@@ -41,8 +41,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUser(Integer userId) {
+        return userDao.findUser(userId);
+    }
+
+    @Override
     public PageInfo<User> queryAll(Integer page, Integer pageSize) {
         List<User> resultList = userDao.queryAll(); // 查询用户信息的结果
+        Integer count = resultList.size();
+        //封装返回结果
+        Page<User> pageSetting = new Page<>(page,pageSize);
+        pageSetting.setTotal (count);
+        PageInfo<User> pageInfo = new PageInfo<>( pageSetting);
+        pageInfo.setList(resultList);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<User> findAllUser(Integer page, Integer pageSize) {
+        List<User> resultList = userDao.findAllUser(); // 查询用户信息的结果
         Integer count = resultList.size();
         //封装返回结果
         Page<User> pageSetting = new Page<>(page,pageSize);
@@ -65,8 +82,17 @@ public class UserServiceImpl implements UserService {
         return pageInfo;
     }
 
-//    @Override
-//    public int countUser() {
-//        return userDao.countUser();
-//    }
+    @Override
+    public PageInfo<User> fuzzyFindUser(String userName,Integer page, Integer pageSize) {
+        List<User> resultList = userDao.fuzzyQuery(userName); // 查询数据结果
+        Integer count = resultList.size(); // 查询数据量
+
+//        封装返回结果
+        Page<User> pageSetting = new Page<>(page, pageSize); // 设置分页的当前页面和页面大小
+        pageSetting.setTotal(count); // 总数据量
+        PageInfo<User> pageInfo = new PageInfo <>(pageSetting);
+        pageInfo.setList(resultList);
+        return pageInfo;
+    }
+
 }

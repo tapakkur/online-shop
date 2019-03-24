@@ -10,10 +10,15 @@ import java.util.List;
  * @Date 2019/2/16 19:57
  */
 public interface UserDao {
-    public void saveUser (User user); // 添加用户
-    public void deleteUser (int userId); // 删除用户
-    public void updateUser (User user); // 更新用户
-    public User queryByUserId (int userId); // 按用户ID查询
-    public List<User> queryAll (); // 查询所用用户
-    public List<User> fuzzyQuery (String userName); // 按姓名模糊查询
+
+    void saveUser(User user); // 添加用户
+    void deleteUser(int userId); // 删除用户
+    void updateUser (User user); // 修改用户
+    User queryByUserId(int userId); // 查询用户的（所有）信息
+    User findUser(Integer userId); // 查询用户的信息
+    List<User> queryAll(); // 查询（所有）用户的（所有）信息
+    List<User> findAllUser(); // 查询（所有）用户的信息
+    List<User> fuzzyQuery(String userName); // 模糊查询用户的（所有）信息
+    List<User> fuzzyFindUser(String userName); // 模糊查询用户的信息
+
 }

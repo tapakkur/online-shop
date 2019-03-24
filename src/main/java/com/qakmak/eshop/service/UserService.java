@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.qakmak.eshop.common.User;
 import io.swagger.models.auth.In;
 
+import java.util.List;
+
 /**
  * @author tapakkur
  * @ProjectName eshop
@@ -16,7 +18,10 @@ public interface UserService {
     void deleteUser(int userId);
     void updateUser(User user);
     User queryByUserId(int userId);
+    User findUser(Integer userId);
     PageInfo<User> queryAll(Integer page, Integer pageSize);
+    PageInfo<User> findAllUser(Integer page, Integer pageSize);
     PageInfo<User> fuzzyQuery(String key,Integer page, Integer pageSize);
-//    int countUser();
+    PageInfo<User> fuzzyFindUser(String userName,Integer page, Integer pageSize);
+
 }

@@ -30,10 +30,10 @@ public class ProductController {
 
     @ApiOperation(value = "添加产品", notes = "添加产品信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "id", value = "产品id", required = true),
-            @ApiImplicitParam(paramType = "query", name = "name", value = "产品名称", required = true),
-            @ApiImplicitParam(paramType = "query", name = "price", value = "产品单价", required = true),
-            @ApiImplicitParam(paramType = "query", name = "description", value = "产品描述", required = true)
+        @ApiImplicitParam(paramType = "query", name = "id", value = "产品id", required = true),
+        @ApiImplicitParam(paramType = "query", name = "name", value = "产品名称", required = true),
+        @ApiImplicitParam(paramType = "query", name = "price", value = "产品单价", required = true),
+        @ApiImplicitParam(paramType = "query", name = "description", value = "产品描述", required = true)
     })
     @RequestMapping(value = "/saveProduct", method = RequestMethod.POST)
     public void saveProduct(
@@ -41,45 +41,46 @@ public class ProductController {
         @RequestParam("name") String name,
         @RequestParam("price") double price,
         @RequestParam("description") String description
-        ){
+    ){
         Product product = new Product(id,name,price,description);
         productService.saveProduct(product);
     }
 
     @ApiOperation(value = "按productId查询产品", notes = "按产品id查询产品信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "id", value = "产品id", required = true)
+        @ApiImplicitParam(paramType = "query", name = "id", value = "产品id", required = true)
     })
     @RequestMapping(value = "/queryProductById", method = RequestMethod.POST)
     public Product queryProductById(
-            @RequestParam(value = "id") Integer id
+        @RequestParam(value = "id") Integer id
     ){
         return productService.queryProductById(id);
     }
 
     @ApiOperation(value = "删除产品", notes = "删除产品信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "productId", value = "产品id", required = true)
+        @ApiImplicitParam(paramType = "query", name = "productId", value = "产品id", required = true)
     })
     @RequestMapping(value = "/deleteProduct", method = RequestMethod.POST)
     public void deleteProduct(
-            @RequestParam("productId") Integer productId
+        @RequestParam("productId") Integer productId
     ){
         productService.deleteProduct(productId);
     }
 
     @ApiOperation(value = "按orderId分页查询产品", notes = "按订单id查询产品信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "id", value = "订单id", required = true),
-            @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),
-            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页显示的记录数", defaultValue = "10")
+        @ApiImplicitParam(paramType = "query", name = "id", value = "订单id", required = true),
+        @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),
+        @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页显示的记录数", defaultValue = "10")
     })
     @RequestMapping(value = "/queryProductByOrderId", method = RequestMethod.POST)
     public PageInfo<Product> queryProductByOrderId(
-            @RequestParam(value = "id") Integer id,
-            @RequestParam(value = "page") Integer page,
-            @RequestParam(value = "pageSize") Integer pageSize
+        @RequestParam(value = "id") Integer id,
+        @RequestParam(value = "page") Integer page,
+        @RequestParam(value = "pageSize") Integer pageSize
     ){
         return productService.queryProductByOrderId(id,page,pageSize);
     }
+
 }

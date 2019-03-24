@@ -16,4 +16,5 @@ public interface ProductService {
     void deleteProduct(Integer productId);
     Product queryProductById(Integer productId);
     PageInfo<Product> queryProductByOrderId(int orderId,Integer page, Integer pageSize);
+
 }
