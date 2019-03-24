@@ -83,7 +83,7 @@
     </select>
 
     <!-- 模糊查询用户的信息 -->
-    <select id="fuzzyFindUser" resultMap="com.qakmak.eshop.common.User" parameterType="java.lang.String">
+    <select id="fuzzyFindUser" resultType="com.qakmak.eshop.common.User" parameterType="java.lang.String">
         SELECT
             u.userId AS id, u.userName AS name, u.loginName,u.passwd AS password,u.phone, u.address
         FROM `tb_user`

@@ -6,6 +6,7 @@ import com.qakmak.eshop.common.User;
 import com.qakmak.eshop.service.OrderServiceImpl;
 import com.qakmak.eshop.service.ProductServiceImpl;
 import com.qakmak.eshop.service.UserServiceImpl;
+import com.qakmak.eshop.utils.CreateOrderCodeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -41,7 +42,7 @@ public class OrderController {
     @ApiOperation(value = "添加订单（下单）", notes = "预处理订单信息（将订单，用户，产品相互关联起来，形成一张订单信息）")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "query", name = "id", value = "订单id",required = true),
-        @ApiImplicitParam(paramType = "query", name = "code", value = "订单编号",required = true),
+//      @ApiImplicitParam(paramType = "query", name = "code", value = "订单编号",required = true),
 //      @ApiImplicitParam(paramType = "query", name = "total", value = "总额",required = true),
         @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id",required = true),
         @ApiImplicitParam(paramType = "query", name = "productIds", value = "产品id集，以','隔开id",required = true)
@@ -49,13 +50,14 @@ public class OrderController {
     @RequestMapping(value = "/saveOrder", method = RequestMethod.POST)
     public void saveOrder(
         @RequestParam(value = "id") Integer id,
-        @RequestParam(value = "code") String code,
-//            @RequestParam(value = "total") double total,
+//      @RequestParam(value = "code") String code,
+//      @RequestParam(value = "total") double total,
         @RequestParam(value = "userId") Integer userId,
         @RequestParam(value = "productIds") String productIds
     ){
         Order order = new Order(); // 1.创建一个order对象
         order.setId(id); // id
+        String code = CreateOrderCodeUtil.getCode(); // 随机产生订单编号
         order.setCode(code); // code
         double totalPrice = 0;
         User user = userService.queryByUserId(userId); // 2.初始化订单的用户属性
