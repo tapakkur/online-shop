@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageInfo<User> fuzzyFindUser(String userName,Integer page, Integer pageSize) {
-        List<User> resultList = userDao.fuzzyQuery(userName); // 查询数据结果
+        List<User> resultList = userDao.fuzzyFindUser(userName); // 查询数据结果
         Integer count = resultList.size(); // 查询数据量
 
 //        封装返回结果

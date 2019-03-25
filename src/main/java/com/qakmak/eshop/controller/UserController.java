@@ -99,7 +99,7 @@ public class UserController {
         return userService.findUser(userId);
     }
 
-    @ApiOperation(value = "分页查询所有用户的所用信息", notes = "分页查询所有用户的所用信息（包括订单，产品信息）")
+    @ApiOperation(value = "分页查询所有用户的所有信息", notes = "分页查询所有用户的所有信息（包括订单，产品信息）")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),
         @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页显示的记录数", defaultValue = "10")
