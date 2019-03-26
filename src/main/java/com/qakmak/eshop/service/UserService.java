@@ -18,6 +18,8 @@ public interface UserService {
     void deleteUser(int userId);
     void updateUser(User user);
     User queryByUserId(int userId);
+    User queryByLoginName(String loginName);
+//    User checkLogin(String loginName, String password);
     User findUser(Integer userId);
     PageInfo<User> queryAll(Integer page, Integer pageSize);
     PageInfo<User> findAllUser(Integer page, Integer pageSize);

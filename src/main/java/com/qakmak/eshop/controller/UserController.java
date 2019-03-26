@@ -1,12 +1,16 @@
 package com.qakmak.eshop.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.qakmak.eshop.AppRun;
+import com.qakmak.eshop.common.ResultData;
 import com.qakmak.eshop.common.User;
 import com.qakmak.eshop.service.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "用户信息管理", description = "管理用户信息，并提供相应的服务的后台接口")
 @RequestMapping(value = "/user")
 public class UserController {
+
+    //    输出日志信息
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserServiceImpl userService;
@@ -59,6 +66,7 @@ public class UserController {
 
     @ApiOperation(value = "修改用户", notes = "修改用户信息")
     @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "query", name = "id", value = "用户编号",required = true),
         @ApiImplicitParam(paramType = "query", name = "name", value = "用户姓名"),
         @ApiImplicitParam(paramType = "query", name = "loginName", value = "登录名"),
         @ApiImplicitParam(paramType = "query", name = "password", value = "登录密码"),
@@ -67,13 +75,14 @@ public class UserController {
     })
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public void updateUser(
+        @RequestParam(value = "id") Integer id,
         @RequestParam(value = "name") String name,
         @RequestParam(value = "loginName") String loginName,
         @RequestParam(value = "password") String password,
         @RequestParam(value = "phone") String phone,
         @RequestParam(value = "address") String address
     ){
-        User user = new User(name,loginName,password,phone,address);
+        User user = new User(id,name,loginName,password,phone,address);
         userService.updateUser(user);
     }
 
@@ -82,10 +91,14 @@ public class UserController {
         @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true)
     })
     @RequestMapping(value = "/queryByUserId", method = RequestMethod.POST)
-    public User queryByUserId(
+    public ResultData queryByUserId(
         @RequestParam(value = "userId") Integer userId
     ){
-        return userService.queryByUserId(userId);
+        ResultData resultData = new ResultData();
+        resultData.setCode(200);
+        resultData.setMessage("成功执行<queryByUserId>");
+        resultData.setData(userService.queryByUserId(userId));
+        return resultData;
     }
 
     @ApiOperation(value = "查询个体用户的个人信息", notes = "查询个体用户的个人信息")
@@ -93,10 +106,14 @@ public class UserController {
         @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true)
     })
     @RequestMapping(value = "/findUser", method = RequestMethod.POST)
-    public User findUser(
+    public ResultData findUser(
         @RequestParam(value = "userId") Integer userId
     ) {
-        return userService.findUser(userId);
+        ResultData resultData = new ResultData();
+        resultData.setCode(200);
+        resultData.setMessage("成功执行<findUser>");
+        resultData.setData(userService.findUser(userId));
+        return resultData;
     }
 
     @ApiOperation(value = "分页查询所有用户的所有信息", notes = "分页查询所有用户的所有信息（包括订单，产品信息）")
@@ -154,4 +171,31 @@ public class UserController {
     ){
         return userService.fuzzyFindUser(key,page,pageSize);
     }
+
+    @ApiOperation(value = "登录系统", notes = "通过身份验证后登入系统")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "loginName", value = "登录名", required = true),
+            @ApiImplicitParam(paramType = "query", name = "password", value = "密码", required = true)
+    })
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResultData checkLogin(
+            @RequestParam(value = "loginName") String loginName,
+            @RequestParam(value = "password") String password
+    ){
+        User user = userService.queryByLoginName(loginName);
+        ResultData resultData = new ResultData();
+        if (user != null && user.getPassword().equals(password)){
+            logger.info("欢迎您："+user.getName());
+            resultData.setCode(200); // status is normal
+            resultData.setMessage("身份验证成功");
+            resultData.setData(user);
+            return resultData;
+        }
+        logger.info("身份验证失败，请重新输入！");
+        resultData.setCode(400); // bad request
+        resultData.setMessage("身份验证失败");
+        resultData.setData(null);
+        return resultData;
+    }
+
 }

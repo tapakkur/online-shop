@@ -15,6 +15,7 @@ public interface UserDao {
     void deleteUser(int userId); // 删除用户
     void updateUser (User user); // 修改用户
     User queryByUserId(int userId); // 查询用户的（所有）信息
+    User queryByLoginName(String loginName); // 用于登录验证
     User findUser(Integer userId); // 查询用户的信息
     List<User> queryAll(); // 查询（所有）用户的（所有）信息
     List<User> findAllUser(); // 查询（所有）用户的信息
