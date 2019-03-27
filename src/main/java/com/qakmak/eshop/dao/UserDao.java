@@ -1,6 +1,7 @@
 package com.qakmak.eshop.dao;
 
 import com.qakmak.eshop.common.User;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * @ProjectName eshop
  * @Date 2019/2/16 19:57
  */
+//@Mapper
 public interface UserDao {
 
     void saveUser(User user); // 添加用户

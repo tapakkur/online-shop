@@ -2,14 +2,36 @@
 server:
   port: 8080
 
-#数据库连接
+#配置数据库连接池
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/eshop?useUnicode=true&characterEncoding=utf8&useSSL=false
-    #    url: jdbc:mysql://127.0.0.1/eshop  提示：useSSL=false 的作用是可以消除后台会出现的一个警告
+    name: eshop
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/eshop?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong
     username: root
     password: root
+    initialSize: 2
+    #获取连接等待超时时间
+    maxWait: 60000
+    #配置初始化大小/最小/最大
+    initial-size: 1
+    min-idle: 1
+    max-active: 20
+    #间隔多久进行一次检测，检测需要关闭的空闲连接
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 50
+
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/eshop?useUnicode=true&characterEncoding=utf8&useSSL=false
+#    # 提示：useSSL=false 的作用是可以消除后台会出现的一个警告
+#    username: root
+#    password: root
 
 # 分页配置
 pagehelper:
@@ -18,7 +40,9 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
+# 数据映射配置
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml  #注意这个mapper地址，不能随便指定，
+  type-aliases-package: com.qakmak.eshop.common #实体类映射路径

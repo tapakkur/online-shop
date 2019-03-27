@@ -38,13 +38,6 @@
     </delete>
 
     <!-- 修改用户的信息 -->
-    <!--<update id="updateUser" parameterType="com.qakmak.eshop.common.User">-->
-        <!--UPDATE tb_user-->
-        <!--SET userName = #{name,jdbcType = VARCHAR}, loginName = #{loginName,jdbcType = VARCHAR},-->
-            <!--passwd = #{password,jdbcType = VARCHAR}, phone = #{phone,jdbcType = VARCHAR},-->
-            <!--address = #{address,jdbcType = VARCHAR}-->
-        <!--WHERE userId = #{id, jdbcType=INTEGER}-->
-    <!--</update>-->
     <update id="updateUser" parameterType="com.qakmak.eshop.common.User">
         UPDATE tb_user
         <set>

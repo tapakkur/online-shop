@@ -39,11 +39,15 @@
 
     <!-- 修改用户的信息 -->
     <update id="updateUser" parameterType="com.qakmak.eshop.common.User">
-        UPDATE `tb_user`
-        SET userName = #{name,jdbcType = VARCHAR}, loginName = #{loginName,jdbcType = VARCHAR},
-            passwd = #{password,jdbcType = VARCHAR}, phone = #{phone,jdbcType = VARCHAR},
-            address = #{address,jdbcType = VARCHAR}
-        WHERE userId = #{id, jdbcType=INTEGER}
+        UPDATE tb_user
+        <set>
+            <if test="name != null">userName = #{name},</if>
+            <if test="loginName != null">loginName = #{loginName},</if>
+            <if test="password != null">passwd = #{password},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="address != null">address = #{address}</if>
+        </set>
+        WHERE userId = #{id}
     </update>
 
     <!-- 查询用户的所有信息 -->
@@ -88,6 +92,14 @@
             u.userId AS id, u.userName AS name, u.loginName,u.passwd AS password,u.phone, u.address
         FROM `tb_user`
         WHERE userName LIKE concat('%', #{name}, '%')
+    </select>
+
+    <!--用于登录login验证-->
+    <select id="queryByLoginName" parameterType="java.lang.String" resultType="com.qakmak.eshop.common.User" >
+        SELECT
+            u.userName AS name, u.loginName,u.passwd AS password
+        FROM tb_user AS u
+        WHERE u.loginName = #{loginName}
     </select>
 
 </mapper>
