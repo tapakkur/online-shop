@@ -1,6 +1,6 @@
-1.database name: eshop;
-2.tables` name as follows:
+## 1.数据库名: eshop;
+## 2.数据表如下:
 	tb_user ,tb_order, tb_product and tb_item;
-3.notice:
+## 3.notice:
 	tb_user2tb_order --> 1:n
 	tb_order2product --> m:k
