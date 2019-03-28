@@ -2,19 +2,19 @@
 SpringBoot框架使用了默认大于配置的理念，集成了快速开发的Spring多个插件，同时自动过滤掉了不需要配置的多余的插件。简化了项目的开发配置流程，一定程度上取消了xml配置，是一套快速配置开发的脚手架。还有SpringBoot的另外一个特点是其更专注于开发微服务后台接口，虽然前端视图也能开发，但那个有点不符合SpringBoot的初衷了，因此SpringBoot更适合于开发可以独立运行的单体微服务后台接口。
 而这也是笔者为什么做这个项目的初衷之一。
 
-** 如果各位猿友觉得还不错的话，就点击一下右上角的star鼓励一下呗(#^.^#) **
+**如果各位猿友觉得还不错的话，就点击一下右上角的star鼓励一下呗(#^.^#)**
 
-** 技术栈 **
+**技术栈**
 
 * 后端： SpringBoot2.x + Mybatis
 * 前端： thymeleaf html/(Vue.JS2.x + ElementUI)
 * 备注： 前端暂时不提供访问页面，后续会补
 
-** 测试环境 **
+**测试环境**
 
 * IDEA + SpringBoot + mysql + jdk8 + maven + Swagger2
 
-** 启动说明 **
+**启动说明**
 
 * 启动前，请配置好 [application.yml](https://github.com/uboy25/online-shop/blob/master/src/main/resources/application.yml) 中连接数据库的用户名和密码。
 
@@ -22,12 +22,17 @@ SpringBoot框架使用了默认大于配置的理念，集成了快速开发的S
 
 * 配置完成后，运行位于 `src/main/java/com/qakmak/eshop/`下的AppRun.java中的main方法，访问 `http://localhost:8080/swagger-ui.html#/` 进行API测试。
 
-** 项目结构 **
+**项目结构**
 ```
 .
 ├─ .idea
 ├─ db --数据表sql文件
 ├─ src --源代码资源文件目录
+├─ preview --存放项目运行效果预览图
+|     ├─ 1.png --项目3大核心模块视图
+|     ├─ 2.png --订单和产品核心功能API
+|     ├─ 3.png --用户核心功能API
+|     ├─ 4.png --queryAll方法查询结果视图，即用来查询所有用户的所有信息（包括用户名下的订单，产品信息）
 │  ├─ docs --存放文档
 │  │  └─ markdown --通过markdown插件生成的一种API文档
 │  └─ main
@@ -160,9 +165,9 @@ mybatis:
   type-aliases-package: com.qakmak.eshop.common #实体类映射路径
   
 ```
-** 注意：空格代表节点层次；注释部分用`#`标记 **
+**注意：空格代表节点层次；注释部分用`#`标记**
 
-** 解释 **
+**解释**
 
 1. 我们实现的是spring-mybatis的整合，包含mybatis的配置以及datasource数据源的配置当然属于spring配置中的一部分，所以需要在`spring:`下。
 
@@ -345,7 +350,7 @@ public interface UserService {
 ```
 ### 服务层之 UserServiceImpl：
 源码GitHub地址：[service/UserServiceImpl.java](https://github.com/uboy25/online-shop/blob/master/src/main/java/com/qakmak/eshop/service/UserServiceImpl.java)
-** 因篇幅过大，因此之举其中的 PageInfo<User> queryAll(Integer page, Integer pageSize) 方法**
+**因篇幅过大，因此之举其中的 PageInfo<User> queryAll(Integer page, Integer pageSize)方法**
     
 ```
 @Override
@@ -363,7 +368,7 @@ public interface UserService {
 
 ### 后端控制层：UserController
 源码GitHub地址：[controller/UserController.java](https://github.com/uboy25/online-shop/blob/master/src/main/java/com/qakmak/eshop/controller/UserController.java)
-** 因篇幅过大，因此之举其中的 PageInfo<User> queryAll(Integer page, Integer pageSize) 方法**
+**因篇幅过大，因此之举其中的 PageInfo<User> queryAll(Integer page, Integer pageSize) 方法**
     
 ```
 @ApiOperation(value = "分页查询所有用户的所有信息", notes = "分页查询所有用户的所有信息（包括订单，产品信息）")
@@ -381,13 +386,18 @@ public interface UserService {
     
 ```
 
-# Preview
+# 预览效果视图
+接下来看一下整个项目运行之后，访问微服务的后台API测试地址： http://localhost:8080/swagger-ui.html#/ 之后的效果图：
 
+* 项目3大核心模块视图
 ![](preview/1.png)
-
+* 订单和产品模块的核心API
 ![](preview/2.png)
-
+* 用户模块的核心API
 ![](preview/3.png)
-
+* 测试 queryAll 方法之后，后台从数据库获取到的数据
 ![](preview/4.png)
 
+
+# ---------------------Welcome to your valuable suggestions------------------------------------
+#------------------------------------The End---------------------------------------------------
