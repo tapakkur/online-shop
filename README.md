@@ -6,26 +6,25 @@ SpringBoot框架使用了默认大于配置的理念，集成了快速开发的S
 
 **技术栈**
 
-* 后端： SpringBoot2.x + Mybatis + Swagger2
+* 后端： SpringBoot2.x + Mybatis
 * 前端： thymeleaf html/(Vue.JS2.x + ElementUI)
 * 备注： 前端暂时不提供访问页面，后续会补
 
 **测试环境**
 
-* IDEA + SpringBoot + mysql + jdk8 + maven
+* IDEA + SpringBoot + mysql + jdk8 + maven + Swagger2
 
-## 1.relations:
-  the project contains three objects: user ,order and product which have the relationships following here between eachother:
-  user&orders:
-    one-to-many
-  order&product:
-    many-to-many
-  
-2.apis:
-  PLease look forward to updating...
+**启动说明**
 
-3.front-end apis link:
-  the front-end web page will be coming as soon as posible...
-  
-4.more
-  PLease look forward to updating...
+* 启动前，请配置好 [application.yml](https://github.com/uboy25/online-shop/blob/master/src/main/resources/application.yml) 中连接数据库的用户名和密码。
+
+* 启动前，请创建数据库`eshop`，建表SQL语句放在：[/db/](https://github.com/uboy25/online-shop/tree/master/db)。具体的建表和建库语句请仔细看SQL文件。
+
+* 配置完成后，运行位于 `src/main/java/com/qakmak/eshop/`下的AppRun.java中的main方法，访问 `http://localhost:8080/swagger-ui.html#/` 进行API测试。
+
+**项目结构**
+```
+.
+|—— s
+|—— ss
+```
