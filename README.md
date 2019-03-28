@@ -2,19 +2,19 @@
 SpringBoot框架使用了默认大于配置的理念，集成了快速开发的Spring多个插件，同时自动过滤掉了不需要配置的多余的插件。简化了项目的开发配置流程，一定程度上取消了xml配置，是一套快速配置开发的脚手架。还有SpringBoot的另外一个特点是其更专注于开发微服务后台接口，虽然前端视图也能开发，但那个有点不符合SpringBoot的初衷了，因此SpringBoot更适合于开发可以独立运行的单体微服务后台接口。
 而这也是笔者为什么做这个项目的初衷之一。
 
-**如果各位猿友觉得还不错的话，就点击一下右上角的star鼓励一下呗(#^.^#)**
+** 如果各位猿友觉得还不错的话，就点击一下右上角的star鼓励一下呗(#^.^#) **
 
-**技术栈**
+** 技术栈 **
 
 * 后端： SpringBoot2.x + Mybatis
 * 前端： thymeleaf html/(Vue.JS2.x + ElementUI)
 * 备注： 前端暂时不提供访问页面，后续会补
 
-**测试环境**
+** 测试环境 **
 
 * IDEA + SpringBoot + mysql + jdk8 + maven + Swagger2
 
-**启动说明**
+** 启动说明 **
 
 * 启动前，请配置好 [application.yml](https://github.com/uboy25/online-shop/blob/master/src/main/resources/application.yml) 中连接数据库的用户名和密码。
 
@@ -22,7 +22,7 @@ SpringBoot框架使用了默认大于配置的理念，集成了快速开发的S
 
 * 配置完成后，运行位于 `src/main/java/com/qakmak/eshop/`下的AppRun.java中的main方法，访问 `http://localhost:8080/swagger-ui.html#/` 进行API测试。
 
-**项目结构**
+** 项目结构 **
 ```
 .
 ├─ .idea
@@ -160,9 +160,9 @@ mybatis:
   type-aliases-package: com.qakmak.eshop.common #实体类映射路径
   
 ```
-**注意：空格代表节点层次；注释部分用`#`标记**
+** 注意：空格代表节点层次；注释部分用`#`标记 **
 
-**解释**
+** 解释 **
 
 1. 我们实现的是spring-mybatis的整合，包含mybatis的配置以及datasource数据源的配置当然属于spring配置中的一部分，所以需要在`spring:`下。
 
@@ -249,7 +249,10 @@ public class SwaggerConfiguration {
 
 ```
 
+
 既然完成了SpringBoot-Mybatis-Swagger 的基本配置，下面我们实战讲解如何实现基本的CRUD。
+（由于篇幅缘故，本次主要选择用户类作为讲解对象，其他订单，产品不再讲解 ！）
+
 ### 实体类
 源码github地址：[common/User.java](https://github.com/uboy25/online-shop/blob/master/src/main/java/com/qakmak/eshop/common/User.java)
 
@@ -266,4 +269,125 @@ public class User implements Serializable {
     
     // 省略构造函数，getter，setter
 ```
+
+### MyBatis接口
+源码GitHub地址：[dao/UserDao](https://github.com/uboy25/online-shop/blob/master/src/main/java/com/qakmak/eshop/dao/UserDao.java)
+
+```
+package com.qakmak.eshop.dao;
+
+import com.qakmak.eshop.common.User;
+
+import java.util.List;
+
+/**
+ * @author tapakkur
+ * @ProjectName eshop
+ * @Date 2019/2/16 19:57
+ */
+
+public interface UserDao {
+
+    void saveUser(User user); // 添加用户
+
+    void deleteUser(int userId); // 删除用户
+
+    void updateUser (User user); // 修改用户
+
+    User queryByUserId(int userId); // 查询用户的（所有）信息
+
+    User queryByLoginName(String loginName); // 用于登录验证
+
+    User findUser(Integer userId); // 查询用户的信息
+
+    List<User> queryAll(); // 查询（所有）用户的（所有）信息
+
+    List<User> findAllUser(); // 查询（所有）用户的信息
+
+    List<User> fuzzyQuery(String userName); // 模糊查询用户的（所有）信息
+
+    List<User> fuzzyFindUser(String userName); // 模糊查询用户的信息
+
+}
+
+```
+
+### 业务服务层：UserService
+源码GitHub地址：[service/UserService.java](https://github.com/uboy25/online-shop/blob/master/src/main/java/com/qakmak/eshop/service/UserService.java)
+
+```
+package com.qakmak.eshop.service;
+
+import com.github.pagehelper.PageInfo;
+import com.qakmak.eshop.common.User;
+
+/**
+ * @author tapakkur
+ * @ProjectName eshop
+ * @Date 2019/2/24 1:03
+ */
+public interface UserService {
+
+    void saveUser(User user);
+    void deleteUser(int userId);
+    void updateUser(User user);
+    User queryByUserId(int userId);
+    User queryByLoginName(String loginName);
+//    User checkLogin(String loginName, String password);
+    User findUser(Integer userId);
+    PageInfo<User> queryAll(Integer page, Integer pageSize);
+    PageInfo<User> findAllUser(Integer page, Integer pageSize);
+    PageInfo<User> fuzzyQuery(String key,Integer page, Integer pageSize);
+    PageInfo<User> fuzzyFindUser(String userName,Integer page, Integer pageSize);
+
+}
+
+```
+### 服务层之 UserServiceImpl：
+源码GitHub地址：[service/UserServiceImpl.java](https://github.com/uboy25/online-shop/blob/master/src/main/java/com/qakmak/eshop/service/UserServiceImpl.java)
+** 因篇幅过大，因此之举其中的 PageInfo<User> queryAll(Integer page, Integer pageSize) 方法**
+    
+```
+@Override
+    public PageInfo<User> queryAll(Integer page, Integer pageSize) {
+        List<User> resultList = userDao.queryAll(); // 查询用户信息的结果
+        Integer count = resultList.size();
+        //封装返回结果
+        Page<User> pageSetting = new Page<>(page,pageSize);
+        pageSetting.setTotal (count);
+        PageInfo<User> pageInfo = new PageInfo<>( pageSetting);
+        pageInfo.setList(resultList);
+        return pageInfo;
+    }
+```
+
+### 后端控制层：UserController
+源码GitHub地址：[controller/UserController.java](https://github.com/uboy25/online-shop/blob/master/src/main/java/com/qakmak/eshop/controller/UserController.java)
+** 因篇幅过大，因此之举其中的 PageInfo<User> queryAll(Integer page, Integer pageSize) 方法**
+    
+```
+@ApiOperation(value = "分页查询所有用户的所有信息", notes = "分页查询所有用户的所有信息（包括订单，产品信息）")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "query", name = "page", value = "当前页", defaultValue = "1"),
+        @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页显示的记录数", defaultValue = "10")
+    })
+    @RequestMapping(value = "/queryAll", method = RequestMethod.POST)
+    public PageInfo<User> queryAll(
+        @RequestParam(value = "page") Integer page,
+        @RequestParam(value = "pageSize") Integer pageSize
+    ){
+        return userService.queryAll(page, pageSize);
+    }
+    
+```
+
+# Preview
+
+![](preview/1.png)
+
+![](preview/2.png)
+
+![](preview/3.png)
+
+![](preview/4.png)
 
