@@ -390,14 +390,25 @@ public interface UserService {
 接下来看一下整个项目运行之后，访问微服务的后台API测试地址： http://localhost:8080/swagger-ui.html#/ 之后的效果图：
 
 * 项目3大核心模块视图
+
 ![](preview/1.png)
+
+
 * 订单和产品模块的核心API
+
 ![](preview/2.png)
+
+
 * 用户模块的核心API
+
 ![](preview/3.png)
+
+
 * 测试 queryAll 方法之后，后台从数据库获取到的数据
+
 ![](preview/4.png)
 
 
-# ---------------------Welcome to your valuable suggestions------------------------------------
-#------------------------------------The End---------------------------------------------------
+# 本项目作为自己的 github 处女作，此刻感到很高兴，也希望网友们多多支持和鼓励。与此同时，非常感谢网友[tyCoding](https://github.com/uboy25/spring-boot/blob/master/README.md)，在编写项目的readme.dm 时，借鉴了TA很多优秀的地方，再次感谢这位匿名侠！
+
+# ---------------------The End--------------------------
