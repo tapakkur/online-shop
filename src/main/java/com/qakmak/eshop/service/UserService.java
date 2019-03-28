@@ -1,11 +1,7 @@
 package com.qakmak.eshop.service;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.qakmak.eshop.common.User;
-import io.swagger.models.auth.In;
-
-import java.util.List;
 
 /**
  * @author tapakkur
