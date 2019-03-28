@@ -45,6 +45,13 @@ spring:
       max-file-size: 10Mb
       max-request-size: 100Mb
 
+
+  # spring-aop配置
+  aop:
+    #启用@Aspectj注解驱动的切面，允许Spring创建基于类的代理
+    auto: true
+    proxy-target-class: true
+
 # 分页配置
 pagehelper:
   helper-dialect: mysql

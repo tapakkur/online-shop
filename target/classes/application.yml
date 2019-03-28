@@ -2,8 +2,9 @@
 server:
   port: 8080
 
-#配置数据库连接池
+#Spring配置
 spring:
+  # 数据库连接池配置
   datasource:
     name: eshop
     type: com.alibaba.druid.pool.DruidDataSource
@@ -27,11 +28,29 @@ spring:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 50
 
-#    driver-class-name: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/eshop?useUnicode=true&characterEncoding=utf8&useSSL=false
-#    # 提示：useSSL=false 的作用是可以消除后台会出现的一个警告
-#    username: root
-#    password: root
+  # 部署前端页面配置
+  thymeleaf:
+    # 前缀；src/main/resources/templates/是受保护的目录，浏览器不能直接访问得到的
+    prefix: classpath:/templates/
+    # 后缀
+    suffix: .html
+    check-template-location: true
+    encoding: UTF-8
+    mode: LEGACYHTML5
+    cache: false
+
+  # 文件上传下载大小配置
+  servlet:
+    multipart:
+      max-file-size: 10Mb
+      max-request-size: 100Mb
+
+
+  # spring-aop配置
+  aop:
+    #启用@Aspectj注解驱动的切面，允许Spring创建基于类的代理
+    auto: true
+    proxy-target-class: true
 
 # 分页配置
 pagehelper:

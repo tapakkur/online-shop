@@ -12,17 +12,22 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 /**
  * @author tapakkur
  * @ProjectName eshop
  * @Date 2019/2/24 1:29
  */
+
+//@Controller表明该类内的所有方法默认返回页面路径，加了@ResponseBody的方法返回数据。
+//@RestController则是相当于@Controller@ResponseBody两个注解，该类返回的都是数据，不返回页面。
 @RestController
+//@Controller
 @Api(value = "用户信息管理", description = "管理用户信息，并提供相应的服务的后台接口")
 @RequestMapping(value = "/user")
 public class UserController {
@@ -197,5 +202,18 @@ public class UserController {
         resultData.setData(null);
         return resultData;
     }
+
+    /**
+     * 本地访问内容地址 ：http://localhost:8080/user/hello
+     * @return
+     *
+     * 提示：由于本项目初衷是实现微服务后台接口，因此在这儿暂时不提供相应的页面访问功能
+     * 后续更新项目的时候再加访问页面的功能
+     */
+//    @RequestMapping("/hello")
+//    public String helloHtml(Model model) {
+//        model.addAttribute("say","欢迎欢迎,热烈欢迎");
+//        return "hello";
+//    }
 
 }
